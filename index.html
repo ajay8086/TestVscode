@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>socket test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <h1>Enter message</h1>
+
+    <form action="/action_page.php">
+        <input id="inputID" value="initail browser message" type="text" >
+    </form> 
+    <br>
+
+    <button onclick="HandleButton()" >click here</button>
+
+    <script src="/socket.io/socket.io.js" ></script>
+
+    <script>
+
+        var socket = io();
+        var counter = 0;
+        var msg = 'initail browser message';
+
+        socket.on('update', function (data) {
+            HandleChatResponse(data);
+        });
+
+        
+        function HandleButton()
+        {
+            msg = document.getElementById('inputID').value;            
+            socket.emit('update', { message: msg , user: 'WebUser' }); 
+        }
+        
+        function HandleChatResponse(ChatData){
+            if(ChatData.user != 'WebUser'){
+                console.log(ChatData.message);
+            }
+        }
+
+    
+    </script>
+
+
+
+
+</body>
+</html>
